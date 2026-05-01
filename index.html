@@ -42,7 +42,8 @@
         const SERVER_URL = window.location.origin;
         let myNick = "", myRoom = "", myRole = "viewer", isLocked = false;
         let myPos = { lat: 0, lon: 0 };
-
+        war_ogien=100
+        war_cieplozimno=200
         // KONFIGURACJA GPS DLA MAKSYMALNEJ DOKŁADNOŚCI
         if ("geolocation" in navigator) {
             navigator.geolocation.watchPosition(pos => {
@@ -133,7 +134,7 @@
                     else if (p.pos_locked) {
                         const dist = calcDist(myPos.lat, myPos.lon, p.lat, p.lon);
                         // Zwiększona strefa złapania do 7m dla kompensacji błędu GPS
-                        const hint = dist < 100 ? "OGIEŃ! 🔥" : dist < 300 ? "Ciepło" : "Zimno";
+                        const hint = dist < war_ogien ? "OGIEŃ! 🔥" : dist < war_cieplozimno ? "Ciepło" : "Zimno";
                         text += `${name}: ${hint}\n`;
                         if (dist < 20) axios.post(`${SERVER_URL}/mark_found`, { room_code: myRoom, nick: name });
                     } else text += `${name}: Szuka kryjówki...\n`;
